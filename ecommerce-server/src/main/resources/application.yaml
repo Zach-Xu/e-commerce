@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: e-commerce
+  config:
+    import: file:env.properties
+  datasource:
+    url: ${DB_CONNECTION_STRING}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: ${GITHUB_CLIENT_ID}
+            clientSecret: ${GITHUB_SECRET}
+            #redirectUri: http://localhost:8080/oauth2/callback/github
+            scope: read:user, user:email
+          google:
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_SECRET}
+            scope: profile, email
+
+app:
+  jwt:
+    # Signing key for HS512 algorithm
+    secret: ${JWT_SECRET}
+    expiration:
+      minutes: 30
+  oauth2:
+    redirectUri: http://localhost:3000/oauth2/redirect
+  cors:
+    allowed-origins: http://localhost:3000
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    # org.hibernate.SQL: DEBUG
